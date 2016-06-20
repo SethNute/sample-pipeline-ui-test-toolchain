@@ -94,8 +94,6 @@ while [ $i -le $# ]; do
     let i=i+1
 done
 
-$CF_EXEC "$@"
-
 if [ ! -z "$IDS_URL" ] && [ ! -z "$IDS_REQUEST" ] && [ ! -z "$IDS_JOB_ID" ] && [ ! -z "$IDS_VERSION" ] ; then
     if [ 'push' == "$CF_ACTION" ] || \
        [ 'p' == "$CF_ACTION" ]; then
