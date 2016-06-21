@@ -107,7 +107,7 @@ if [ ! -z "$IDS_URL" ] && [ ! -z "$IDS_REQUEST" ] && [ ! -z "$IDS_JOB_ID" ] && [
        [ 'd' == "$CF_ACTION" ]; then
         if [ ! -z "$CF_APP" ] ; then
             if [ ! -z "$CF_APP_ID" ]; then
-                source $DIRNAME/cf-post "$@"
+                source /cf-post "$@"
             fi
         else
             CF_APPS=$(grep -E '^- name:|^  name:' $MANIFEST_FILE | cut -d : -f 2- | sed "s/$CR//g")
@@ -127,7 +127,7 @@ if [ ! -z "$IDS_URL" ] && [ ! -z "$IDS_REQUEST" ] && [ ! -z "$IDS_JOB_ID" ] && [
                 shopt -u extglob
                 CF_APP_ENCODED=`curl -Gso /dev/null -w %{url_effective} --data-urlencode "=$CF_APP" "" | cut -c 3-`
                 get_app_id
-                source $DIRNAME/cf-post "$@"
+                source /cf-post "$@"
             done <<< "$CF_APPS"
         fi
     fi
