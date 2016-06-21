@@ -42,6 +42,7 @@ while [ $i -le $# ]; do
             # -f is the manifest for push and force (with no value) for deletes
             if [ 'push' == "$CF_ACTION" ] || \
                [ 'p' == "$CF_ACTION" ]; then
+               echo cf-action is push
                 let i=i+1
                 MANIFEST_FILE=${@:i:1}
             fi
@@ -80,6 +81,7 @@ while [ $i -le $# ]; do
                 CF_ACTION=${@:i:1}
             elif [ 'push' == "$CF_ACTION" ] || \
                  [ 'p' == "$CF_ACTION" ]; then
+                 echo cf-action equals push
                 CF_APP=${@:i:1}
                 CF_APP_ENCODED=`curl -Gso /dev/null -w %{url_effective} --data-urlencode "=$CF_APP" "" | cut -c 3-`
             elif
@@ -97,6 +99,7 @@ done
 if [ ! -z "$IDS_URL" ] && [ ! -z "$IDS_REQUEST" ] && [ ! -z "$IDS_JOB_ID" ] && [ ! -z "$IDS_VERSION" ] ; then
     if [ 'push' == "$CF_ACTION" ] || \
        [ 'p' == "$CF_ACTION" ]; then
+       echo cfaction
         if [ ! -z "$CF_APP" ] ; then
             get_app_id
         fi
@@ -107,6 +110,7 @@ if [ ! -z "$IDS_URL" ] && [ ! -z "$IDS_REQUEST" ] && [ ! -z "$IDS_JOB_ID" ] && [
        [ 'd' == "$CF_ACTION" ]; then
         if [ ! -z "$CF_APP" ] ; then
             if [ ! -z "$CF_APP_ID" ]; then
+            echo cfaction...
                 source $DIRNAME/cf-post "$@"
             fi
         else
