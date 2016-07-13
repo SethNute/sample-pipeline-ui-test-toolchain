@@ -1,0 +1,34 @@
+---
+stages:
+- name: Build
+  inputs:
+  - url: https://github.com/SethNute/sample-pipeline-ui-test-toolchain
+    type: git
+    branch: master
+    dir_name: null
+  triggers:
+  - type: commit
+  jobs:
+  - name: Build
+    type: builder
+    artifact_dir: ''
+- name: Deploy
+  inputs:
+  - type: job
+    stage: Build
+    job: Build
+    dir_name: null
+  triggers:
+  - type: stage
+  jobs:
+  - name: Deploy
+    type: deployer
+    target:
+      region_id: ibm:yp:us-south
+      organization: seth.nute@ibm.com
+      space: dev
+      application: sample-pipeline-ui-test-toolchain-sethnute
+    script: "#!/bin/bash\nif cf app \"${CF_APP}\"; then\n    echo \"App exists; executing\
+      \ restart command\" \n    timeout 600s cf restart \"${CF_APP}\"\nelse\n    echo\
+      \ \"App does not exist; executing push command\"\n    timeout 600s cf push \"\
+      ${CF_APP}\"\nfi"
